@@ -4,12 +4,26 @@ import { Transaction } from "./src/types";
 const readlineSync = require('readline-sync');
 const fs = require('fs');
 const csv = require('csv-parser')
+const log4js = require('log4js');
+
+log4js.configure({
+    appenders: {
+        file: { type: 'fileSync', filename: 'logs/debug.log' }
+    },
+    categories: {
+        default: { appenders: ['file'], level: 'debug'}
+    }
+});
+
+const logger = log4js.getLogger('index.ts');
 
 const commander: Commander = new Commander();
 
 function processCommands(): void {
     while (true) {
         const command = readlineSync.question('> ');
+        logger.debug('Processing command "' + command + '"');
+
         if (command === 'exit') {
             break;
         }
@@ -17,6 +31,7 @@ function processCommands(): void {
         const commandSplit = command.split(' ');
 
         if (commandSplit[0].toLowerCase() !== 'list') {
+            logger.debug('Command does not start with "list"');
             console.log('Invalid command!');
             continue;
         }

@@ -1,17 +1,17 @@
 import Person from "./person";
 import { Transaction } from "./types";
+
+const log4js = require('log4js');
+const logger = log4js.getLogger('commander.ts');
+
 export default class Commander {
-    persons: Person[];
-    transactions: Transaction[];
+    private persons: Person[];
 
     constructor() {
         this.persons = [];
-        this.transactions = [];
     }
 
     public processTransaction(transaction: Transaction) {
-        this.transactions.push(transaction);
-
         const from: Person | undefined = this.persons.find(p => p.getName() === transaction.From);
         const to: Person | undefined = this.persons.find(p => p.getName() === transaction.To);
 
@@ -20,19 +20,32 @@ export default class Commander {
     }
 
     public updateAccount(person: Person | undefined, transaction: Transaction, receives: boolean): void {
+        const amount: number = Number(transaction.Amount);
+
         if (!person) {
-            person = new Person(receives ? transaction.To : transaction.From);
+            const name = receives ? transaction.To : transaction.From;
+            person = new Person(name);
             this.persons.push(person);
+
+            logger.debug("New person with the name of " + name + " added.")
         }
 
+        if (Number.isNaN(amount)) {
+            logger.debug("This amount is not a number: " + transaction.Amount);
+            return;
+        }
+
+        logger.debug("Process amount " + amount + " on " + person.getName());
+
         receives ?
-            person.addValue(Number(transaction.Amount)) :
-            person.subtractValue(Number(transaction.Amount));
+            person.addValue(amount) :
+            person.subtractValue(amount);
 
         person.addTransaction(transaction);
     }
 
-    public listAll() {
+    public listAll(): void {
+        logger.debug('Listing all persons.')
         console.log(this.persons.map((p: Person) => {
             return {
                 name: p.getName(),
@@ -41,7 +54,8 @@ export default class Commander {
         }));
     }
 
-    public listAccount(name:string) {
+    public listAccount(name: string): void {
+        logger.debug('Listing transactions for ' + name);
         const person = this.persons.find((p: Person) => p.getName() === name);
 
         if (!person) {
