@@ -1,5 +1,5 @@
-import Person from "./person";
-import { Transaction } from "./types";
+import Person from './person';
+import { Transaction } from './types';
 
 const log4js = require('log4js');
 const logger = log4js.getLogger('manager.ts');
@@ -27,7 +27,7 @@ export default class Manager {
             person = new Person(name);
             this.persons.push(person);
 
-            logger.debug("New person with the name of " + name + " added.")
+            logger.debug("New person with the name of " + name + " added.");
         }
 
         if (Number.isNaN(amount)) {
@@ -49,7 +49,7 @@ export default class Manager {
     }
 
     public listAll(): void {
-        logger.debug('Listing all persons.')
+        logger.debug('Listing all persons.');
         console.log(this.persons.map((p: Person) => {
             return {
                 name: p.getName(),

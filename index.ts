@@ -1,7 +1,6 @@
-import Handler from "./src/handler";
+import Handler from './src/handler';
 
 const readlineSync = require('readline-sync');
-const fs = require('fs');
 const log4js = require('log4js');
 
 log4js.configure({

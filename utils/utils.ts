@@ -1,4 +1,4 @@
-import {Transaction, TransactionJSON, TransactionXML} from "../src/types";
+import { Transaction, TransactionJSON, TransactionXML } from '../src/types';
 
 export function json2Transaction(transaction: TransactionJSON): Transaction {
     return {

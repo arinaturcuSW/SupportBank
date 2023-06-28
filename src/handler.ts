@@ -1,8 +1,8 @@
 import { parse } from 'csv-parse/sync';
-import { XMLParser } from "fast-xml-parser";
-import { Transaction, TransactionJSON, TransactionXML } from "./types";
-import { json2Transaction, xml2Transaction } from "../utils/utils";
-import Manager from "./manager";
+import { XMLParser } from 'fast-xml-parser';
+import { Transaction, TransactionJSON, TransactionXML } from './types';
+import { json2Transaction, xml2Transaction } from '../utils/utils';
+import Manager from './manager';
 
 const fs = require('fs');
 

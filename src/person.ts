@@ -1,4 +1,4 @@
-import {Transaction} from "./types";
+import { Transaction } from './types';
 
 export default class Person {
     private readonly name: string;
