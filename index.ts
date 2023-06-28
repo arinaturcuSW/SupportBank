@@ -1,6 +1,7 @@
-import Manager from "./src/manager";
-import {Transaction, TransactionJSON} from "./src/types";
+import Manager from './src/manager';
+import {Transaction, TransactionJSON, TransactionXML} from './src/types';
 import { parse } from 'csv-parse/sync';
+import { XMLParser } from 'fast-xml-parser';
 
 const readlineSync = require('readline-sync');
 const fs = require('fs');
@@ -28,6 +29,16 @@ function json2Transaction(transaction: TransactionJSON): Transaction {
     }
 }
 
+function xml2Transaction(transaction: TransactionXML): Transaction {
+    return {
+        Date: transaction['@_Date'],
+        From: transaction.Parties.From,
+        To: transaction.Parties.To,
+        Narrative: transaction.Description,
+        Amount: transaction.Value
+    }
+}
+
 function handleCSVFile(path: string): void {
     console.log('Reading file...');
 
@@ -51,6 +62,22 @@ function handleJSONFile(path: string): void {
 
     data.map((transaction: TransactionJSON) => {
         manager.processTransaction(json2Transaction(transaction));
+    });
+
+    console.log("Done. Ready to receive commands!");
+}
+
+function handleXMLFile(path: string): void {
+    console.log('Reading file...');
+    const xmlRaw = fs.readFileSync(path);
+    const parser = new XMLParser({ignoreAttributes: false});
+
+    const json = parser.parse(xmlRaw);
+
+    const data: TransactionXML[] = json?.TransactionList?.SupportTransaction;
+
+    data.map((transaction: TransactionXML) => {
+        manager.processTransaction(xml2Transaction(transaction));
     });
 
     console.log("Done. Ready to receive commands!");
@@ -102,6 +129,9 @@ function loadFile(filePath: string) {
             break;
         case 'json':
             handleJSONFile(filePath);
+            break;
+        case 'xml':
+            handleXMLFile(filePath);
             break;
         default:
             console.log('Unsupported file type! Enter a CSV or a JSON file.');

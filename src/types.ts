@@ -13,3 +13,13 @@ export type TransactionJSON = {
     Narrative: string,
     Amount: string,
 }
+
+export type TransactionXML = {
+    Parties: {
+        From: string,
+        To: string,
+    },
+    Description: string,
+    Value: string,
+    '@_Date': string,
+}
