@@ -32,7 +32,7 @@ function processCommands(): void {
             continue;
         }
 
-        if (command.toLowerCase().startsWith("import file") && commandSplit[2]?.length > 0) {
+        if (command.toLowerCase().startsWith('import file') && commandSplit[2]?.length > 0) {
             handler.setFilePath(commandSplit[2]);
             handler.loadFile();
             continue;

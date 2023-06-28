@@ -11,7 +11,7 @@ export default class Handler {
     private readonly manager: Manager;
 
     constructor() {
-        this.filePath = "";
+        this.filePath = '';
         this.manager = new Manager();
     }
 
@@ -67,7 +67,7 @@ export default class Handler {
                 return;
         }
 
-        console.log("File " + this.filePath + " loaded. Ready to receive commands!");
+        console.log('File ' + this.filePath + ' loaded. Ready to receive commands!');
     }
 
     public getManager(): Manager {

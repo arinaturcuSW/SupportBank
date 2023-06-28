@@ -27,15 +27,15 @@ export default class Manager {
             person = new Person(name);
             this.persons.push(person);
 
-            logger.debug("New person with the name of " + name + " added.");
+            logger.debug('New person with the name of ' + name + ' added.');
         }
 
         if (Number.isNaN(amount)) {
-            logger.debug("This amount is not a number: " + transaction.Amount);
+            logger.debug('This amount is not a number: ' + transaction.Amount);
             return;
         }
 
-        logger.debug("Process amount " + amount + " on " + person.getName());
+        logger.debug('Process amount ' + amount + ' on ' + person.getName());
 
         receives ?
             person.addValue(amount) :
